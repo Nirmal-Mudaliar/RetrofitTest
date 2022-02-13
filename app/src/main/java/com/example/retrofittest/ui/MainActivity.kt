@@ -23,10 +23,15 @@ class MainActivity : AppCompatActivity() {
         postViewModel = ViewModelProvider(this, viewModelFatory).get(PostViewModel::class.java)
         postViewModel.getPost()
         postViewModel.myResponse.observe(this, Observer { response ->
-            Log.d("Response", response.userId.toString())
-            Log.d("Response", response.id.toString())
-            Log.d("Response", response.title)
-            Log.d("Response", response.body)
+            if (response.isSuccessful) {
+                Log.d("Response", response.body()?.userId.toString())
+                Log.d("Response", response.body()?.id.toString())
+                Log.d("Response", response.body()?.title!!)
+                Log.d("Response", response.body()?.body!!)
+            }
+            else {
+                Log.d("Response: Error: ", response.errorBody().toString())
+            }
         })
 
 
